@@ -1,0 +1,46 @@
+appId: app.soloscrum.desktop
+productName: Solo Scrum
+copyright: Copyright © 2026 Solo Scrum
+npmRebuild: false
+asar: true
+
+directories:
+  output: dist
+  buildResources: resources
+
+files:
+  - out/**/*
+  - package.json
+  - resources/logo.png
+
+mac:
+  icon: resources/icon.icns
+  category: public.app-category.developer-tools
+  identity: null
+  target:
+    - dmg
+    - zip
+
+dmg:
+  artifactName: ${productName}-${version}-${arch}.${ext}
+
+win:
+  icon: resources/icon.png
+  target:
+    - nsis
+
+nsis:
+  artifactName: ${productName}-${version}-setup.${ext}
+  shortcutName: ${productName}
+  uninstallDisplayName: ${productName}
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+
+linux:
+  icon: resources/icon.png
+  category: Development
+  target:
+    - AppImage
+
+appImage:
+  artifactName: ${productName}-${version}-${arch}.${ext}
