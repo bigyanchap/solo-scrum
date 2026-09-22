@@ -76,10 +76,10 @@ export function ProjectFilter({ projects, value, onChange }: ProjectFilterProps)
         className="ghost-btn header-cta project-filter-trigger"
         aria-haspopup="listbox"
         aria-expanded={open}
+        aria-label="Projects"
         disabled={projects.length === 0}
         onClick={() => setOpen((prev) => !prev)}
       >
-        <span className="project-filter-label">Filter</span>
         <span className="project-filter-value">{label}</span>
         <ChevronIcon />
       </button>

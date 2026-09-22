@@ -102,16 +102,24 @@ button {
 .workspace,
 .modal-root {
   position: relative;
-  z-index: 1;
 }
 
 .app-header {
+  z-index: 4;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 24px;
   padding: 18px 28px 10px;
   -webkit-app-region: drag;
+}
+
+.workspace {
+  z-index: 1;
+}
+
+.modal-root {
+  z-index: 20;
 }
 
 .app-header button,
@@ -132,13 +140,6 @@ button {
   max-width: 220px;
 }
 
-.project-filter-label {
-  color: var(--muted);
-  font-size: 11px;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
 .project-filter-value {
   min-width: 0;
   overflow: hidden;
@@ -150,7 +151,7 @@ button {
   position: absolute;
   top: calc(100% + 8px);
   right: 0;
-  z-index: 8;
+  z-index: 10;
   min-width: 220px;
   max-width: min(280px, calc(100vw - 40px));
   max-height: min(320px, calc(100vh - 120px));
