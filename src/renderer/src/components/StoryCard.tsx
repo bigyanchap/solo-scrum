@@ -97,7 +97,7 @@ export function StoryCard({
         </div>
       </div>
       <h3>{story.title}</h3>
-      {projectName ? <p className="card-project">from the project <span className="boldify-text">{projectName}</span></p> : null}
+      {projectName ? <p className="card-project">project <span className="boldify-text">{projectName}</span></p> : null}
       {story.description ? <p className="card-desc">{story.description}</p> : null}
       <footer className="card-meta">
         <span className={`priority p-${story.priority}`}>{story.priority}</span>

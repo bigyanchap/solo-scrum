@@ -40,7 +40,7 @@ function storyCard(data: BoardData, story: Story, detailed: boolean): string {
     <article class="card">
       <p class="id">${escapeHtml(story.id)}</p>
       <h3>${escapeHtml(story.title)}</h3>
-      ${project ? `<p class="from">from the project ${escapeHtml(project)}</p>` : ''}
+      ${project ? `<p class="from">project: ${escapeHtml(project)}</p>` : ''}
       ${desc}
       ${meta}
     </article>
