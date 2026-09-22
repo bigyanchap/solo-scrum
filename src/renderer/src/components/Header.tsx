@@ -1,11 +1,15 @@
 import type { JSX } from 'react'
 import logo from '../assets/logo.png'
+import type { Project } from '@shared/types'
+import { ProjectFilter, type ProjectFilterValue } from './ProjectFilter'
 
 interface HeaderProps {
   isMac: boolean
   total: number
   done: number
-  projects: number
+  projects: Project[]
+  projectFilter: ProjectFilterValue
+  onProjectFilterChange: (value: ProjectFilterValue) => void
   exporting: boolean
   onNewStory: () => void
   onProjects: () => void
@@ -17,6 +21,8 @@ export function Header({
   total,
   done,
   projects,
+  projectFilter,
+  onProjectFilterChange,
   exporting,
   onNewStory,
   onProjects,
@@ -33,7 +39,7 @@ export function Header({
       </div>
       <div className="header-meta">
         <button type="button" className="stat glass-chip stat-btn" onClick={onProjects}>
-          <span className="stat-value">{projects}</span>
+          <span className="stat-value">{projects.length}</span>
           <span className="stat-label">projects</span>
         </button>
         <div className="stat glass-chip">
@@ -44,6 +50,11 @@ export function Header({
           <span className="stat-value">{done}</span>
           <span className="stat-label">done</span>
         </div>
+        <ProjectFilter
+          projects={projects}
+          value={projectFilter}
+          onChange={onProjectFilterChange}
+        />
         <button type="button" className="ghost-btn header-cta" onClick={onExport} disabled={exporting}>
           {exporting ? 'Exporting…' : 'Export PDF'}
         </button>
