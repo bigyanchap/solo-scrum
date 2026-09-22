@@ -1,8 +1,12 @@
-import { useEffect, useState, type JSX } from 'react'
+import { useEffect, useMemo, useState, type JSX } from 'react'
 import type { ColumnId, Story } from '@shared/types'
 import { Header } from './components/Header'
 import logo from './assets/logo.png'
 import { Board } from './components/Board'
+import {
+  filterStoriesByProjects,
+  type ProjectFilterValue
+} from './components/ProjectFilter'
 import { StoryModal } from './components/StoryModal'
 import { ProjectsModal } from './components/ProjectsModal'
 import { ConfirmDialog } from './components/ConfirmDialog'
@@ -26,13 +30,19 @@ export default function App(): JSX.Element {
   const [pendingDelete, setPendingDelete] = useState<Story | null>(null)
   const [exporting, setExporting] = useState(false)
   const [exportError, setExportError] = useState<string | null>(null)
+  const [projectFilter, setProjectFilter] = useState<ProjectFilterValue>('all')
 
   useEffect(() => {
     void hydrate()
   }, [hydrate])
 
   const isMac = window.solo?.platform === 'darwin'
-  const done = stories.filter((story) => story.column === 'done').length
+  const projectIds = useMemo(() => projects.map((project) => project.id), [projects])
+  const visibleStories = useMemo(
+    () => filterStoriesByProjects(stories, projectFilter, projectIds),
+    [stories, projectFilter, projectIds]
+  )
+  const done = visibleStories.filter((story) => story.column === 'done').length
 
   const openNew = (column: ColumnId = 'new'): void => {
     setComposer({ story: null, column })
@@ -75,9 +85,11 @@ export default function App(): JSX.Element {
       <div className="orb orb-c" />
       <Header
         isMac={isMac}
-        total={stories.length}
+        total={visibleStories.length}
         done={done}
-        projects={projects.length}
+        projects={projects}
+        projectFilter={projectFilter}
+        onProjectFilterChange={setProjectFilter}
         onNewStory={() => openNew('new')}
         onProjects={() => setProjectsOpen(true)}
         onExport={() => void exportPdf()}
@@ -86,6 +98,7 @@ export default function App(): JSX.Element {
       <main className="workspace">
         {hydrated ? (
           <Board
+            stories={visibleStories}
             onNewStory={openNew}
             onEdit={(story) => setComposer({ story, column: story.column })}
             onDelete={setPendingDelete}
